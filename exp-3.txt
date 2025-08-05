@@ -1,0 +1,9 @@
+Student-Portal-Demo
+Name   :Sri Bhanu Priya Pakala
+Course :Data Science
+Year   :3rd Bsc
+SUC    :2360530043
+Rollno :07
+College:Aditya Women's Degree College
+Branch :Ram Nagar
+ 

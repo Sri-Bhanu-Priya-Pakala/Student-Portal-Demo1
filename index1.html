@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎬 Movie & TV Show Finder</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://images.unsplash.com/photo-1608889178115-d6e47a3a7f8f?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 4% auto;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.75);
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.7rem;
+      margin-bottom: 20px;
+    }
+
+    .decor-images {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 20px;
+    }
+
+    .decor-images img {
+      width: 70px;
+      height: auto;
+    }
+
+    input[type="text"] {
+      width: 70%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #e50914;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .movie-info {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .movie-info img {
+      max-width: 220px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    }
+
+    .details {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .details h2 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .details p {
+      margin: 8px 0;
+    }
+
+    @media (max-width: 600px) {
+      input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .decor-images {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="decor-images">
+      <img src="https://cdn-icons-png.flaticon.com/512/743/743007.png" alt="Film Reel">
+      <img src="https://cdn-icons-png.flaticon.com/512/924/924915.png" alt="Popcorn">
+    </div>
+    <h1>🎬 Movie & TV Show Finder</h1>
+    <input type="text" id="movieInput" placeholder="Search for a movie or show...">
+    <button onclick="searchMovie()">Search</button>
+    <div class="movie-info" id="movieInfo"></div>
+  </div>
+
+  <script>
+    async function searchMovie() {
+      const title = document.getElementById('movieInput').value.trim();
+      const apiKey = "YOUR_API_KEY_HERE"; // Replace this with your real API key
+
+      const infoDiv = document.getElementById('movieInfo');
+      infoDiv.innerHTML = ''; // Clear old results
+
+      if (!title) {
+        alert("Please enter a movie or show name.");
+        return;
+      }
+
+      const url = `https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${apiKey}`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.Response === "True") {
+        infoDiv.innerHTML = `
+          <img src="${data.Poster !== "N/A" ? data.Poster : 'https://via.placeholder.com/220x320?text=No+Image'}" alt="Poster">
+          <div class="details">
+            <h2>${data.Title} (${data.Year})</h2>
+            <p><strong>Genre:</strong> ${data.Genre}</p>
+            <p><strong>Plot:</strong> ${data.Plot}</p>
+            <p><strong>IMDB Rating:</strong> ${data.imdbRating}</p>
+          </div>
+        `;
+      } else {
+        infoDiv.innerHTML = `<p style="color: #ff6b6b;">Movie or show not found.</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
